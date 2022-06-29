@@ -1,3 +1,8 @@
 jupyter-book
 matplotlib
 numpy
+pandas
+seaborn
+sklearn
+ntlk
+wordcloud
