@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>&lt;no title&gt; &#8212; My sample book</title>
+    <title>LDA (Latent Dirichlet Allocation) &#8212; My sample book</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,6 +52,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Notebooks with MyST Markdown" href="markdown-notebooks.html" />
+    <link rel="prev" title="LSA (Latent Semantic Analysis)" href="LSA.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -111,15 +113,25 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="LDA.html">
+  <a class="reference internal" href="LSA.html">
+   LSA (Latent Semantic Analysis)
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    LDA (Latent Dirichlet Allocation)
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="model.html">
-   Topic Modelling LSA &amp; LDA
+  <a class="reference internal" href="markdown-notebooks.html">
+   Notebooks with MyST Markdown
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modelling-using-lda-and-lsa-in-sklearn.html">
+   Topic Modelling using Latent Semantic Analysis (LSA) and Latent Dirichlet Allocation (LDA) in sklearn
   </a>
  </li>
 </ul>
@@ -212,7 +224,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FREADME.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FLDA.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -240,7 +252,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/README.md"
+        <a href="_sources/LDA.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -277,50 +289,23 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1><no title></h1>
+                <h1>LDA (Latent Dirichlet Allocation)</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
@@ -328,11 +313,31 @@ title="Print to PDF"
                 
               <div>
                 
-  <p>??#� �P�P�W�
-�
-�#�#� �K�h�a�n�s�a� �D�a�f�f�a� �Z�u�l�h�a�z�m�i�
-�
-�#�#� �1�9�0�4�1�1�1�0�0�0�8�2�</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="lda-latent-dirichlet-allocation">
+<h1>LDA (Latent Dirichlet Allocation)<a class="headerlink" href="#lda-latent-dirichlet-allocation" title="Permalink to this headline">#</a></h1>
+<p>Latent Dirichlet Allocation (LDA) adalah model probabilistik generatif dari koleksi data diskrit seperti korpus teks. Ide dasarnya adalah bahwa dokumen direpresentasikan sebagai campuran acak atas topik laten (tidak terlihat).</p>
+<p>LDA merupakan model Bayesian hirarki tiga tingkat, di mana setiap item koleksi dimodelkan sebagai campuran terbatas atas serangkaian set topik. Setiap topik dimodelkan sebagai campuran tak terbatas melalui set yang mendasari probabilitas topik. Dalam konteks pembuatan model teks, probabilitas topik memberikan representasi eksplisit dari sebuah dokumen</p>
+<img src="lda1.jpg"  style="margin-left:auto; margin-right:auto; display: block;" />
+<p>LDA mengasumsikan proses generatif berikut untuk setiap w dokumen korpus D:</p>
+<img src="lda2.jpg"  style="margin-left:auto; margin-right:auto; display: block;" />
+<p>Ide dasar dari LDA yaitu bahwa dokumen terdiri dari beberapa topik. LDA adalah model statistik dari kumpulan dokumen yang berusaha untuk merepresentasikan ide tersebut. Proses LDA bersifat generatif melalui imaginary random process pada model yang mengasumsikan bahwa dokumen berasal dari topik tertentu. Setiap topik terdiri dari distribusi kata-kata.</p>
+<img src="lda3.jpg"  style="margin-left:auto; margin-right:auto; display: block;" />
+<p>Blei menentukan topik untuk menjadi distribusi melalui kosakata tetap. Misalnya, topik genetika memiliki kata-kata tentang genetika dengan probabilitas yang tinggi dan topik biologi evolusioner memiliki kata-kata tentang biologi evolusioner dengan probabilitas yang tinggi. Blei berasumsi bahwa topik yang ditentukan sebelum data telah digenerasi.</p>
+<p>Setiap dokumen di dalam koleksi, dihasilkan kata-kata dalam suatu proses dengan 2 tahap:</p>
+<ul class="simple">
+<li><p>Secara acak memilih sebuah distribusi topik</p></li>
+<li><p>Untuk setiap kata dalam dokumen:</p>
+<ul>
+<li><p>Secara acak memilih sebuah topik dari distribusi topik pada langkah pertama.</p></li>
+<li><p>Secara acak memilih sebuah kata dari distribusi kosakata yang sesuai.</p></li>
+</ul>
+</li>
+</ul>
+<p>Tujuan topic modeling yaitu menentukan topik secara otomatis dari sekumpulan dokumen. Dokumen yang diteliti memiliki struktur tersembunyi (hidden structure) berupa topik, distribusi topik per dokumen, dan penentuan topik per kata dalam setiap dokumen. Topic modeling menggunakan kumpulan dokumen tersebut untuk inference struktur topik tersembunyi. Jumlah topik yang akan dihasilkan telah ditentukan sebelum proses topic modeling dilaksanakan. Penentuan jumlah topik sangat berpengaruh pada kualitas model topik LDA dan biasanya dilakukan berdasarkan eksperimen antara 30-300 topik untuk menentukan model yang baik.</p>
+<img src="lda4.jpg"  style="margin-left:auto; margin-right:auto; display: block;" />
+<p>Setelah model topik LDA dibuat, sebuah dokumen atau artikel dapat ditentukan distribusi topiknya yang mendeskripsikan kumpulan kata dalam dokumen. Sisi kanan dari Gambar 4 menunjukkan daftar topik dan lima belas kata dengan distribusi tertinggi untuk masing-masing topik.</p>
+<p>LDA menggunakan asumsi bag of words, yaitu urutan kemunculan kata dalam dokumen diabaikan. Asumsi ini diakui tidak realistis, akan tetapi beralasan karena tujuan LDA hanya untuk menemukan struktur semantik teks.</p>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -361,6 +366,20 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="LSA.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">LSA (Latent Semantic Analysis)</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="markdown-notebooks.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Notebooks with MyST Markdown</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>

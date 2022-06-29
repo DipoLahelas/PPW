@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>&lt;no title&gt; &#8212; My sample book</title>
+    <title>LSA (Latent Semantic Analysis) &#8212; My sample book</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,6 +52,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="LDA (Latent Dirichlet Allocation)" href="LDA.html" />
+    <link rel="prev" title="Welcome to your Jupyter Book" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -111,15 +113,25 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   LSA (Latent Semantic Analysis)
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="LDA.html">
    LDA (Latent Dirichlet Allocation)
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="model.html">
-   Topic Modelling LSA &amp; LDA
+  <a class="reference internal" href="markdown-notebooks.html">
+   Notebooks with MyST Markdown
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="topic-modelling-using-lda-and-lsa-in-sklearn.html">
+   Topic Modelling using Latent Semantic Analysis (LSA) and Latent Dirichlet Allocation (LDA) in sklearn
   </a>
  </li>
 </ul>
@@ -212,7 +224,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FREADME.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FLSA.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -240,7 +252,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/README.md"
+        <a href="_sources/LSA.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -298,7 +310,27 @@ title="Print to PDF"
         <i class="fas fa-list"></i> Contents
     </div>
     <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="simple visible nav section-nav flex-column">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#text-preprocessing">
+   1. Text Preprocessing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#term-document-matrix">
+   2. Term-document Matrix
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#singular-value-decomposition">
+   3. Singular Value Decomposition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cosine-similarity-measurement">
+   4. Cosine Similarity Measurement
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -308,7 +340,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1><no title></h1>
+                <h1>LSA (Latent Semantic Analysis)</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -317,7 +349,27 @@ title="Print to PDF"
                             <h2> Contents </h2>
                         </div>
                         <nav aria-label="Page">
-                            <ul class="simple visible nav section-nav flex-column">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#text-preprocessing">
+   1. Text Preprocessing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#term-document-matrix">
+   2. Term-document Matrix
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#singular-value-decomposition">
+   3. Singular Value Decomposition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cosine-similarity-measurement">
+   4. Cosine Similarity Measurement
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -328,11 +380,42 @@ title="Print to PDF"
                 
               <div>
                 
-  <p>??#� �P�P�W�
-�
-�#�#� �K�h�a�n�s�a� �D�a�f�f�a� �Z�u�l�h�a�z�m�i�
-�
-�#�#� �1�9�0�4�1�1�1�0�0�0�8�2�</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="lsa-latent-semantic-analysis">
+<h1>LSA (Latent Semantic Analysis)<a class="headerlink" href="#lsa-latent-semantic-analysis" title="Permalink to this headline">#</a></h1>
+<p>Latent Semantic Analysis (LSA) merupakan sebuah metode yang memanfaatkan model statistik matematis untuk menganalisa struktur semantik suatu teks. LSA bisa digunakan untuk menilai esai dengan mengkonversikan esai menjadi matriks-matriks yang diberi nilai pada masing-masing term untuk dicari kesamaan dengan term referensi. Secara umum, langkah-langkah LSA dalam penilaian esai adalah sebagai berikut:</p>
+<section id="text-preprocessing">
+<h2>1. Text Preprocessing<a class="headerlink" href="#text-preprocessing" title="Permalink to this headline">#</a></h2>
+<p>Preprocessing adalah proses normalisasi teks sehingga informasi yang dimuat merupakan bagian yang padat dan ringkas namun tetap merepresentasikan informasi yang termuat didalamnya. Dalam tahap ini, terdapat beberapa proses diantaranya:</p>
+<ul class="simple">
+<li><p>Stopwords Removal : Pada stopwords removal, kata-kata yang tergolong sebagai kata depan, kata penghubung, dan kata-kata lain yang tidak mewakili makna dari kalimat akan dieliminasi.</p></li>
+<li><p>Stemming : Langkah berikutnya adalah stemming. Pada proses ini, kata akan dinormalkan menjadi kata dasar pembentuk kata tersebut. Caranya adalah dengan menghilangkan imbuhan yang melekat pada kata, sehingga hasilnya adalah kata dasarnya. Apabila dalam Bahasa Inggris, proses stemming bisa mengikutsertakan pengembalian bentuk tense dari kata kerja bentuk ke-2 atau ke-3 menjadi kata kerja bentuk ke-1.</p></li>
+</ul>
+</section>
+<section id="term-document-matrix">
+<h2>2. Term-document Matrix<a class="headerlink" href="#term-document-matrix" title="Permalink to this headline">#</a></h2>
+<p>Setelah melalui stopwords removal dan stemming, matriks term-document dibangun dengan menempatkan kata hasil proses stemming (term) ke dalam baris. Matriks ini disebut term-document matrix. Setiap baris mewakili sebuah kata yang unik, sedangkan setiap kolom mewakili konteks dari mana kata-kata tersebut diambil. Konteks yang dimaksud bisa berupa kalimat, paragraf, atau seluruh bagian dari teks.
+Di bawah ini merupakan contoh term-document matrix:</p>
+ <img src="pw1.jpg" width=1000 height=400  style="margin-left:auto; margin-right:auto; display: block;" />
+<p>Pada tabel di atas, baris pertama mewakili stemmed term (term 1, term 2, dst), dan bagian kolom mewakili konteks, yaitu teks. Nilai yang terletak pada setiap cell pada tabel menunjukkan berapa kali sebuah term muncul dalam sebuah dokumen. Contohnya, term 1 muncul 1 kali pada dokumen ke-1, dan muncul 2 kali pada dokumen ke-2, namun term 1 tidak muncul pada dokumen 3, dan seterusnya.</p>
+</section>
+<section id="singular-value-decomposition">
+<h2>3. Singular Value Decomposition<a class="headerlink" href="#singular-value-decomposition" title="Permalink to this headline">#</a></h2>
+<p>Singular Value Decomposition (SVD) adalah salah satu teknik reduksi dimensi yang bermanfaat untuk memperkecil nilai kompleksitas dalam pemrosesan term-document matrix. SVD merupakan teorema aljabar linier yang menyebutkan bahwa persegi panjang dari term-document matrix dapat dipecah/didekomposisikan menjadi tiga matriks, yaitu :</p>
+<p>– Matriks ortogonal U</p>
+<p>– Matriks diagonal S</p>
+<p>– Transpose dari matriks ortogonal V</p>
+<p>Yang dirumuskan dengan :</p>
+<img src="pw2.jpg"  style="margin-left:auto; margin-right:auto; display: block;" />
+<p>Hasil dari proses SVD adalah vektor yang akan digunakan untuk menghitung similaritasnya dengan pendekatan cosine similarity.</p>
+</section>
+<section id="cosine-similarity-measurement">
+<h2>4. Cosine Similarity Measurement<a class="headerlink" href="#cosine-similarity-measurement" title="Permalink to this headline">#</a></h2>
+<p>Cosine similarity digunakan untuk menghitung nilai kosinus sudut antara vektor dokumen dengan vektor kueri. Semakin kecil sudut yang dihasilkan, maka tingkat kemiripan esai semakin tinggi.
+Formula dari cosine similarity adalah sebagai berikut:</p>
+<img src="pw3.jpg"  style="margin-left:auto; margin-right:auto; display: block;" />
+<p>Dari hasil cosine similarity, akan didapatkan nilai yang akan dibandingkan dengan penilaian manusia untuk diuji selisih nilainya.</p>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -361,6 +444,20 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Welcome to your Jupyter Book</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="LDA.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">LDA (Latent Dirichlet Allocation)</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>
