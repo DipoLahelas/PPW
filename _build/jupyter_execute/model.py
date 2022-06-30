@@ -43,7 +43,7 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.decomposition import LatentDirichletAllocation
 
 
-# In[ ]:
+# In[2]:
 
 
 # Melakukan setting jumlah kolom maksimal pada output
@@ -52,107 +52,29 @@ pd.options.display.max_columns = 10
 
 # ## Membaca Data
 
-# Dataset yang digunakan : [link](https://github.com/egi-190137/topic-modelling-sklearn/blob/main/contents/dataset_pta.csv)
+# Dataset yang digunakan : [link](https://github.com/DipoLahelas/PPW/blob/main/hasil-crawl.csv)
 # 
 # Dataset yang digunakan merupakan hasil dari crawling jurnal pta yang telah diambil tadi dan juga ditambahi label.
 
-# In[ ]:
+# In[3]:
 
 
-df = pd.read_csv('hasil-crawl.csv')
+df = pd.read_csv('Hasil_Text_Preprocessing.csv')
 
 
-# In[ ]:
-
-
-df.head()
-
-
-# Data yang digunakan dalam program ini hanya data pada kolom 'judul'. Untuk mengambil kolom 'judul' saja dapat dilakukan dengan inisialisasi ulang df dengan df[['judul']] 
-
-# In[ ]:
-
-
-df = df[['judul']]
-df.head()
-
-
-# ## Pre-processing Data
-
-# Ada beberapa tahapan dalam melakukan Pre-processing data, diantaranya *case folding*, menghapus angka dan tanda baca, menghapus spasi kosong dan *stopword*. Semua tahapan *pre-processing* tersebut saya masukkan ke dalam fungsi clean_text, kemudian saya aplikasikan pada data judul pada dataframe dengan method **.apply(clean_text)**. 
-# 
-# Untuk menghapus stopword saya menggunakan library **PySastrawi**.
-# 
-# Pada Library **PySastrawi** penghapusan stopword dilakukan dengan membuata objek StopWordRemoverFactory, kemudian buat objek stopword remover dengan method create_stop_word_remover. Objek stopword remover memiliki method remove yang dapat digunakan untuk menghapus stopword dalam sebuah kalimat dengan memasukkan string ke dalam parameter method remove.  
-
-# In[ ]:
-
-
-factory = StopWordRemoverFactory()
-stopword = factory.create_stop_word_remover()
-
-
-# In[ ]:
-
-
-def clean_text(text):
-  # Mengubah teks menjadi lowercase
-  cleaned_text = text.lower()
-  # Menghapus angka
-  cleaned_text = re.sub(r"\d+", "", cleaned_text)
-  # Menghapus white space
-  cleaned_text = cleaned_text.strip()
-  # Menghapus tanda baca
-  cleaned_text = cleaned_text.translate(str.maketrans("","",string.punctuation))
-  # Hapus stopword
-  cleaned_text = stopword.remove(cleaned_text)
-  return cleaned_text
-  
-
-
-# In[ ]:
-
-
-# time taking
-df['cleaned_judul'] = df['judul'].apply(clean_text)
-
-
-# ### Perbedaan data awal dengan data yang telah di-preprocessing
-
-# In[ ]:
+# In[4]:
 
 
 df.head()
 
 
-# ### Hapus kolom 'judul'
+# Data yang digunakan dalam program ini hanya data pada kolom 'abstrak'. Untuk mengambil kolom 'abstrak' saja dapat dilakukan dengan inisialisasi ulang df dengan df[['abstrak']] 
 
-# In[ ]:
-
-
-df.drop(['judul'],axis=1,inplace=True)
+# In[5]:
 
 
-# ### Mengganti nama kolom __cleaned_judul__ dengan __judul__ 
-
-# In[ ]:
-
-
-df.columns = ['judul']
-
-
-# In[ ]:
-
-
+df = df[['abstrak']]
 df.head()
-
-
-# ### Contoh judul yang telah di lakukan *pre-processing*
-
-# In[ ]:
-
-
-df['judul'][0]
 
 
 # ## Ekstraksi fitur dan membuat Document Term Matrix (DTM)
@@ -185,7 +107,7 @@ df['judul'][0]
 # tfidf( t,d,D ) = tf( t,d ) \times idf( t,D )
 # $$
 
-# In[ ]:
+# In[6]:
 
 
 vect = TfidfVectorizer()
@@ -193,13 +115,13 @@ vect = TfidfVectorizer()
 
 # Setelah objek **TfidfVectorizer** dibuat gunakan method **fit_transform** dengan argumen data yang akan dicari nilai **TF-IDF**-nya
 
-# In[ ]:
+# In[7]:
 
 
-vect_text = vect.fit_transform(df['judul'])
+vect_text = vect.fit_transform(df['abstrak'])
 
 
-# In[ ]:
+# In[8]:
 
 
 attr_count = vect.get_feature_names_out().shape[0]
@@ -210,7 +132,7 @@ print(f'Jumlah atribut dalam Document-Term Matrix : {attr_count}')
 
 # Hasil tfidf perlu diubah terlebih dahulu menjadi array agar dapat digunakan sebagai data. Kemudian untuk parameter kolom-nya dapat didapatkan menggunakan method get_feature_names_out pada objek TfidfVectorizer.
 
-# In[ ]:
+# In[9]:
 
 
 tfidf = pd.DataFrame(
@@ -222,13 +144,13 @@ tfidf.head()
 
 # Mencari nilai **idf** dengan mengakses atribut **idf_** pada objek **tfidfVectorizer**. Atribut **idf_** hanya terdefinisi apabila parameter **use_idf** saat instansiasi objekk tfidfVectorizer bernilai **True**. Namun, **use_idf** sudah bernilai **True** secara default, sehingga kita dapat perlu menentukannya secara manual. 
 
-# In[ ]:
+# In[10]:
 
 
 idf = vect.idf_
 
 
-# In[ ]:
+# In[11]:
 
 
 dd= dict(zip(vect.get_feature_names_out(), idf))
@@ -238,7 +160,7 @@ l = sorted(dd, key = dd.get)
 
 # Kita dapat melihat kata yang paling sering dan paling jarang muncul pada judul tugas akhir berdasarkan nilai idf. Kata yang memiliki nilai lebih kecil, adalah kata yang paling sering muncul dalam judul
 
-# In[ ]:
+# In[12]:
 
 
 print("5 Kata yang sering muncul:")
@@ -246,7 +168,7 @@ for i, word in enumerate(l[:5]):
     print(f"{i+1}. {word}\t(Nilai idf: {dd[word]})")
 
 
-# In[ ]:
+# In[13]:
 
 
 print("5 Kata yang jarang muncul:")
@@ -289,15 +211,15 @@ for i, word in enumerate(l[:-5:-1]):
 # 
 # 
 
-# In[ ]:
+# In[14]:
 
 
-lsa_model = TruncatedSVD(n_components=2, algorithm='randomized', n_iter=10, random_state=42)
+lsa_model = TruncatedSVD(n_components=10, algorithm='randomized', n_iter=10, random_state=42)
 
 lsa_top=lsa_model.fit_transform(vect_text)
 
 
-# In[ ]:
+# In[15]:
 
 
 l=lsa_top[0]
@@ -306,7 +228,7 @@ for i,topic in enumerate(l):
   print(f"Topic {i} : {topic*100}")
 
 
-# In[ ]:
+# In[16]:
 
 
 (count_topic, count_word) = lsa_model.components_.shape
@@ -316,7 +238,7 @@ print(f"Jumlah kata\t: {count_word}")
 
 # Sekarang kita dapat mendapatkan daftar kata yang penting untuk setiap topik. Jumlah kata yang akan ditampilkan hanya 10. Untuk melakukan sorting dapat menggunakan fungsi sorted, lalu slicing dengan menambahkan \[:10\] agar data yang diambil hanya 10 data pertama. Slicing dilakukan berdasarkan nilai pada indeks 1 karena nilai dari nilai lsa.
 
-# In[ ]:
+# In[17]:
 
 
 # most important words for each topic
@@ -364,19 +286,19 @@ for i, comp in enumerate(lsa_model.components_):
 # - max_iter = 1 \
 #     Untuk mengatur jumlah iterasi training data (epoch) menjadi 1 kali saja.
 
-# In[ ]:
+# In[18]:
 
 
 lda_model = LatentDirichletAllocation(n_components=2,learning_method='online',random_state=42,max_iter=1) 
 
 
-# In[ ]:
+# In[19]:
 
 
 lda_top = lda_model.fit_transform(vect_text)
 
 
-# In[ ]:
+# In[20]:
 
 
 (count_doc_lda, count_topic_lda) = lda_top.shape
@@ -384,7 +306,7 @@ print(f"Jumlah dokumen\t: {count_doc_lda}")
 print(f"Jumlah topik\t: {count_topic_lda}")
 
 
-# In[ ]:
+# In[21]:
 
 
 # composition of doc 0 for eg
@@ -395,7 +317,7 @@ for i,topic in enumerate(lda_top[0]):
 
 # Seperti yang dapat dilihat pada program di atas bahwa Topic 1 lebih dominan daripada topik 0 pada document 0.
 
-# In[ ]:
+# In[22]:
 
 
 (count_topic_lda, count_word_lda) = lda_model.components_.shape
@@ -405,7 +327,7 @@ print(f"Jumlah kata\t: {count_word_lda}")
 
 # #### 10 kata paling penting untuk suatu topik
 
-# In[ ]:
+# In[23]:
 
 
 vocab = vect.get_feature_names_out()
@@ -416,7 +338,7 @@ def get_important_words(comp, n):
     return " ".join([t[0] for t in sorted_words])
 
 
-# In[ ]:
+# In[24]:
 
 
 for i, comp in enumerate(lda_model.components_):
@@ -427,7 +349,7 @@ for i, comp in enumerate(lda_model.components_):
 
 # #### Visualisasi 50 kata penting menggunakan wordcloud
 
-# In[ ]:
+# In[25]:
 
 
 # Generate a word cloud image for given topic
@@ -443,13 +365,13 @@ def draw_word_cloud(index):
  
 
 
-# In[ ]:
+# In[26]:
 
 
 draw_word_cloud(0)
 
 
-# In[ ]:
+# In[27]:
 
 
 draw_word_cloud(1)

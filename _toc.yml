@@ -5,4 +5,6 @@ format: jb-book
 root: intro
 chapters:
 - file: Scrapy
+- file: preprosessing&TF_IDF
+- file: K_mean_Clustering
 - file: model
